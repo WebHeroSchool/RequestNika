@@ -29,7 +29,7 @@ fetch('https://api.github.com/users/' + userName)
 				document.getElementById('description').innerHTML = userDescription;
 				document.getElementById('description').classList.add('description_padding');
 			}
-		} else {
+		} else if (userDescription == undefined) {
 			document.getElementById('description').innerHTML = 'Введите корректное имя пользователя';
 			document.getElementById('description').classList.add('no-user');
 		}
