@@ -1,3 +1,6 @@
+let url = window.location.toString();
+let userName = getUsername(url);
+
 function getUsername(url) {
 	let urlParts = url.split('=');
 	let userName = urlParts[1];
@@ -5,17 +8,28 @@ function getUsername(url) {
 	return userName;
 }
 
-let url = window.location.toString();
-let userName = getUsername(url);
+let getDate = new Promise((resolve, reject) => {
+	let date = new Date();
+	setTimeout(() => date ? resolve(date) : reject ('Ошибка вычисления времени'), 3000)
+});
 
-fetch('https://api.github.com/users/' + userName)
-	.then(res => res.json())
-	.then(json => {
-		let userPic = json.avatar_url;
-		let userName = json.login;
-		let userDescription = json.bio;
-		let userLink = json.html_url;
-		console.log(userName);
+let getUserInfo = fetch('https://api.github.com/users/' + userName);
+
+Promise.all([getUserInfo, getDate])
+	.then(([request, date]) => {
+		requestInfo = request;
+		requestDate = date;
+	})
+	.then(res => requestInfo.json())
+	.then(showUserInfo => {
+		let userPic = showUserInfo.avatar_url;
+		let userName = showUserInfo.login;
+		let userDescription = showUserInfo.bio;
+		let userLink = showUserInfo.html_url;
+		let preloader = document.getElementById('preloader');
+
+        preloader.classList.add('hidden');
+
 		if (userName) {
 		  	document.getElementById('username').href = userLink;
 			document.getElementById('username').innerHTML = userName;
@@ -35,3 +49,4 @@ fetch('https://api.github.com/users/' + userName)
 		}
 	})
 
+.catch(err => alert(err + 'Информация о пользователе не доступна'));
