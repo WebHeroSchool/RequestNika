@@ -5,6 +5,10 @@ function getUsername(url) {
 	let urlParts = url.split('=');
 	let userName = urlParts[1];
 
+	if (userName == undefined) {
+		userName = 'nikakrash';
+	}
+
 	return userName;
 }
 
