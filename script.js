@@ -31,6 +31,7 @@ Promise.all([getUserInfo, getDate])
 		let userDescription = showUserInfo.bio;
 		let userLink = showUserInfo.html_url;
 		let preloader = document.getElementById('preloader');
+		let date = requestDate;
 
         preloader.classList.add('hidden');
 
@@ -47,6 +48,7 @@ Promise.all([getUserInfo, getDate])
 				document.getElementById('description').innerHTML = userDescription;
 				document.getElementById('description').classList.add('description_padding');
 			}
+			document.getElementById('date').innerHTML = date;
 		} else if (userDescription == undefined) {
 			document.getElementById('description').innerHTML = 'введите корректное имя пользователя';
 			document.getElementById('description').classList.add('no-user');
